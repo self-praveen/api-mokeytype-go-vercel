@@ -7,16 +7,15 @@ import (
 	"strings"
 )
 
-func Profile(w http.ResponseWriter, r *http.Request) {
+func Github(w http.ResponseWriter, r *http.Request) {
 	path := r.URL.Path
 
 	segments := strings.Split(path, "/")
 	fmt.Println(segments)
 
 	username := segments[len(segments)-1]
-	fmt.Println(username)
 
-	apiURL := fmt.Sprintf("https://api.monkeytype.com/users/%s/profile", username)
+	apiURL := fmt.Sprintf("https://api.github.com/users/%s", username)
 
 	response, err := http.Get(apiURL)
 	if err != nil {
@@ -24,8 +23,6 @@ func Profile(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	defer response.Body.Close()
-
-	fmt.Println(response)
 
 	responseBody, err := ioutil.ReadAll(response.Body)
 	if err != nil {
