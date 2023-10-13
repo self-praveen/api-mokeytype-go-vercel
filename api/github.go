@@ -4,16 +4,17 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
-	"strings"
 )
 
 func Github(w http.ResponseWriter, r *http.Request) {
-	path := r.URL.Path
+	// path := r.URL.Path
 
-	segments := strings.Split(path, "/")
-	fmt.Println(segments)
+	// segments := strings.Split(path, "/")
+	// fmt.Println(segments)
 
-	username := segments[len(segments)-1]
+	// username := segments[len(segments)-1]
+	username := r.URL.Query().Get("username")
+	fmt.Println(username)
 
 	apiURL := fmt.Sprintf("https://api.github.com/users/%s", username)
 

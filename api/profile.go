@@ -4,16 +4,17 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
-	"strings"
 )
 
 func Profile(w http.ResponseWriter, r *http.Request) {
-	path := r.URL.Path
+	// path := r.URL.Path
 
-	segments := strings.Split(path, "/")
-	fmt.Println(segments)
+	// segments := strings.Split(path, "/")
+	// fmt.Println(segments)
 
-	username := segments[len(segments)-1]
+	// username := segments[len(segments)-1]
+	// fmt.Println(username)
+	username := r.URL.Query().Get("username")
 	fmt.Println(username)
 
 	apiURL := fmt.Sprintf("https://api.monkeytype.com/users/%s/profile", username)
