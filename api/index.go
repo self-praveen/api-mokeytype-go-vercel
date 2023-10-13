@@ -1,17 +1,19 @@
-package main
+package handler
 
 import (
 	"fmt"
 	"io/ioutil"
-	"log"
 	"net/http"
-
-	"github.com/gorilla/mux"
+	"strings"
 )
 
-func ProfileHandler(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
-	username := vars["username"]
+func Profile(w http.ResponseWriter, r *http.Request) {
+	path := r.URL.Path
+
+	segments := strings.Split(path, "/")
+	fmt.Println(segments)
+
+	username := segments[len(segments)-1]
 
 	apiURL := fmt.Sprintf("https://api.monkeytype.com/users/%s/profile", username)
 
@@ -35,19 +37,4 @@ func ProfileHandler(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(responseBody)
-}
-
-func Router() *mux.Router {
-	router := mux.NewRouter()
-	router.HandleFunc("/profile/{username}", ProfileHandler).Methods("GET")
-	return router
-}
-
-func main() {
-	r := Router()
-
-	err := http.ListenAndServe(":4068", r)
-	if err != nil {
-		log.Fatal(err)
-	}
 }
